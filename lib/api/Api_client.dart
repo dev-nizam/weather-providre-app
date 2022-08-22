@@ -11,7 +11,7 @@ class ApiClient {
 
   Future<Response> invokeApi(String path, String method, Object? body) async {
     Map<String, String> headerparams = {
-      'X-RapidAPI-Key': apiKey,
+      'X-RapidAPI-Key': '11e4b161bfmsh1b58c2cd21f6829p10ba09jsn5ae9055a4b23',
       'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
     };
     Response response;
@@ -49,15 +49,12 @@ class ApiClient {
       case "GET_":
         response = await post(
           Uri.parse(url),
-          headers: {},
+          headers: headerparams,
           body: body,
         );
         break;
       default:
-        response = await get(Uri.parse(url), headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        });
+        response = await get(Uri.parse(url), headers: headerparams);
     }
     print('status of $path =>' + (response.statusCode).toString());
     print(response.body);

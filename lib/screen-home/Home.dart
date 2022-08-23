@@ -12,6 +12,7 @@ class WeatherHome extends StatefulWidget {
 }
 
 class _WeatherHomeState extends State<WeatherHome> {
+   String city = "malappuram";
   Weathermodel? weathermodel;
   bool loading = true;
 
@@ -19,7 +20,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   void initState() {
     final trendingProvider =
         Provider.of<WeatherProvider>(context, listen: false);
-    trendingProvider.getWeatherApiData(context);
+    trendingProvider.getWeatherApiData(context,city);
 
     super.initState();
   }
@@ -38,11 +39,16 @@ class _WeatherHomeState extends State<WeatherHome> {
               child: Container(
                 //  height: MediaQuery.of(context).size.height,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
+                decoration:  BoxDecoration(
+                  image:weatherProvider.weathermodel.current!.isDay==1? DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(
                       'asset/image/25-252084_m.jpg',
+                    ),
+                  ): DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                      'asset/image/2444e87b261bc4873ff72f02c041131d--monarch-butterfly-charlotte.jpg',
                     ),
                   ),
                 ),
@@ -92,6 +98,23 @@ class _WeatherHomeState extends State<WeatherHome> {
                       width: 300,
                       height: 40,
                       child: TextField(
+                        onSubmitted: (value){
+                          final trendingProvider =
+                          Provider.of<WeatherProvider>(context, listen: false);
+                          trendingProvider.getWeatherApiData(context,value);
+                          if (value.isEmpty) {
+                            setState(() {
+                              city = "malappuram";
+                            });
+                          } else {
+                            setState(() {
+                              city =value;
+                            });
+                            print(city);
+                          }
+
+
+                        },
                         decoration: InputDecoration(
                             labelText: "search",
                             border: OutlineInputBorder(
@@ -139,10 +162,10 @@ class _WeatherHomeState extends State<WeatherHome> {
                               ],
                             ),
                           ),
-                          const Text(
+                           Text(
                             // (snapshot.data!.current!.condition!.text)
                             //     .toString(),
-                            "yyoyo",
+                            weatherProvider.weathermodel.current!.condition!.text.toString(),
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           ElevatedButton.icon(
@@ -399,7 +422,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children:  [
                                     Text(
                                       "humidity",
                                       style: TextStyle(color: Colors.grey),
@@ -407,7 +430,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                                     Text(
                                       // (snapshot.data!.current!.humidity)
                                       //     .toString(),
-                                      "jhgjg",
+                                      weatherProvider.weathermodel.current!.humidity.toString(),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                     ),
@@ -444,7 +467,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children:  [
                                     Text(
                                       "Pressur",
                                       style: TextStyle(color: Colors.grey),
@@ -452,7 +475,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                                     Text(
                                       // (snapshot.data!.current!.pressureMb)
                                       //     .toString(),
-                                      "ghjg",
+                                      weatherProvider.weathermodel.current!.pressureMb.toString(),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                     ),
@@ -465,7 +488,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children:  [
                                     Text(
                                       "Wind speed",
                                       style: TextStyle(color: Colors.grey),
@@ -473,7 +496,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                                     Text(
                                       // (snapshot.data!.current!.windMph)
                                       //     .toString(),
-                                      "ghjg",
+                                      weatherProvider.weathermodel.current!.windMph.toString(),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                     ),
@@ -481,14 +504,14 @@ class _WeatherHomeState extends State<WeatherHome> {
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children:  [
                                     Text(
                                       "Uv index",
                                       style: TextStyle(color: Colors.grey),
                                     ),
                                     Text(
                                       // (snapshot.data!.current!.uv).toString(),
-                                      "ghjg",
+                                      weatherProvider.weathermodel.current!.uv.toString(),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                     ),

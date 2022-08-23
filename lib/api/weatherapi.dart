@@ -7,8 +7,8 @@ import 'package:my_new_weather_app/model/weatherModel.dart';
 class WeatherApi {
   ApiClient apiClient = ApiClient();
 
-  Future<Weathermodel> getWeather() async {
-    Response response = await apiClient.invokeApi('malappuram', 'GET', null);
+  Future<Weathermodel> getWeather({required String place}) async {
+    Response response = await apiClient.invokeApi(place, 'GET', null);
     return Weathermodel.fromJson(jsonDecode(response.body));
   }
 }

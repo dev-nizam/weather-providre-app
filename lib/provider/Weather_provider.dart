@@ -8,9 +8,9 @@ class WeatherProvider with ChangeNotifier{
 
   bool loading =false;
 
-  getWeatherApiData(context) async{
+  getWeatherApiData(context, String place) async{
     loading = true;
-    weathermodel = await weatherApi.getWeather();
+    weathermodel = await weatherApi.getWeather(place: place);
     loading = false;
     notifyListeners();
   }
